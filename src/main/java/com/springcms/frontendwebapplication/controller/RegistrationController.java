@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.springcms.frontendwebapplication.entity.User;
+import com.springcms.frontendwebapplication.formentity.CMSUser;
 import com.springcms.frontendwebapplication.service.UserRestService;
-import com.springcms.frontendwebapplication.user.CMSUser;
 
 @Controller
 @RequestMapping("/register")

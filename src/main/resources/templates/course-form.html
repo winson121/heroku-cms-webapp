@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+	
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+	
+	<title>Save Course</title>
+	<style>.error {color:red}</style>
+</head>
+
+<body>
+	
+	<div class="container">
+	
+		<h3>Course Form</h3>
+		<hr>
+		
+		<p class="h4 mb-4">Save Course</p>
+		<div>
+			<form action="#" th:action="@{/courses/saveUserCourse}"
+							 th:object="${course}" method="POST">
+				
+				<!-- Add hidden form field to handle update -->
+				
+				<input type="hidden" th:field="*{id}" />
+				
+				<div th:if="${#fields.hasErrors('title')}"
+								class="error">
+					<ul>
+				  		<li th:each="err : ${#fields.errors('title')}" th:text="'title ' + ${err}" />
+					</ul>		
+									
+				</div>
+				<input type="text" th:field="*{title}"
+						class="form-control mb-4 col-4" placeholder="title">
+				
+				<div th:if="${#fields.hasErrors('description')}"
+								class="error">
+					<ul>
+				  		<li th:each="err : ${#fields.errors('description')}" th:text="'description ' + ${err}" />
+					</ul>						
+				</div>
+				<textarea th:field="*{description}" cols="86" rows ="20" placeholder="Description"></textarea>
+				
+				<div>
+					<button type="submit" class="btn btn-info col-2">Save</button>
+				</div>
+				
+			</form>
+		</div>
+		<hr>
+		
+		<a th:href="@{/courses/userCourses}">Back to Employees List</a>
+	</div>
+
+</body>
+
+</html>

@@ -18,8 +18,8 @@ import org.springframework.web.client.RestTemplate;
 import com.springcms.frontendwebapplication.dto.UserDTO;
 import com.springcms.frontendwebapplication.entity.Role;
 import com.springcms.frontendwebapplication.entity.User;
+import com.springcms.frontendwebapplication.formentity.CMSUser;
 import com.springcms.frontendwebapplication.handler.ClientStatusErrorHandler;
-import com.springcms.frontendwebapplication.user.CMSUser;
 
 @Service
 public class UserRestServiceImpl implements UserRestService{

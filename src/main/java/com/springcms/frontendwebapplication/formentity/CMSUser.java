@@ -1,4 +1,4 @@
-package com.springcms.frontendwebapplication.user;
+package com.springcms.frontendwebapplication.formentity;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

@@ -2,6 +2,12 @@ package com.springcms.frontendwebapplication.entity;
 
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+@JsonIdentityInfo(scope=User.class,
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class User {
 	
 	private int id;
@@ -17,6 +23,8 @@ public class User {
 	private String email;
 	
 	private Collection<Role> roles;
+	
+	private Collection<Course> courses;
 	
 	public User() {}
 
@@ -83,6 +91,14 @@ public class User {
 
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
+	}
+	
+	public Collection<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(Collection<Course> courses) {
+		this.courses = courses;
 	}
 
 	@Override

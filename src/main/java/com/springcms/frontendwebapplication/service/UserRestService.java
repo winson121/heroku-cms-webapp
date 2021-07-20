@@ -3,7 +3,7 @@ package com.springcms.frontendwebapplication.service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.springcms.frontendwebapplication.entity.User;
-import com.springcms.frontendwebapplication.user.CMSUser;
+import com.springcms.frontendwebapplication.formentity.CMSUser;
 
 public interface UserRestService extends UserDetailsService{
 	

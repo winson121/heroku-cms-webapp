@@ -61,6 +61,13 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<!-- spring-aop support-->
+
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aspects</artifactId>
+		</dependency>
 	</dependencies>
 	
 	<build>

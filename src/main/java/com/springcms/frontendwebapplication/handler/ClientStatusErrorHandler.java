@@ -8,6 +8,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.ResponseErrorHandler;
 
+// http response error handler class for RestTemplate
 public class ClientStatusErrorHandler implements ResponseErrorHandler{
 	
 	private Logger logger = Logger.getLogger(getClass().getName());

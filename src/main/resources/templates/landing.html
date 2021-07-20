@@ -2,31 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
  
 <head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+	
 	<title>Prototype ToDo List Landing Page</title>
 </head>
  
 <body>
-	<h2>Prototype ToDo List Landing Page</h2>
-	<hr>
-	
-	<p>
-		Welcome to the Prototype ToDo List, this is just a sample ToDo List Rest API Web Application.
-		Please don't put any personal information to sign up and using the ToDo List. 
-	</p>
-	
-	<p>
-		Available user by default:
-	</p>
-		<ul>
-			<li>username: user, password: user</li>
-			<li>username: poweruser, password: poweruser</li>
-		</ul>
-	<hr>
-	
-	<p>
-		<a th:href="@{/home}">Access Secure Site (requires login)</a>
-	</p>
+	<div class="container">
+		<h2>Prototype ToDo List Landing Page</h2>
+		<hr>
 		
+		<p>
+			Welcome to the Prototype ToDo List, this is just a sample ToDo List Rest API Web Application.
+			Please don't put any personal information to sign up and using the ToDo List. 
+		</p>
+		
+		<p>
+			Available user by default:
+		</p>
+			<ul>
+				<li>username: user, password: user</li>
+				<li>username: poweruser, password: poweruser</li>
+			</ul>
+		<hr>
+		
+		<p>
+			<a th:href="@{/home}">Access Secure Site (requires login)</a>
+		</p>
+	</div>		
 </body>
  
 </html>
