@@ -107,5 +107,23 @@ public class User {
 				+ ", lastName=" + lastName + ", email=" + email + ", roles=" + roles + "]";
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		// if both object reference the same object return true
+		if(this == obj) return true;
+		
+		// check if arguments if of the type of the same class
+		if(obj == null || obj.getClass() != this.getClass()) return false;
+		
+		// if object is the type geek, check the state of object
+		User user = (User) obj;
+		
+		// comparing state of obj to 'this' obj
+		return (user.username.equals(this.username));
+	}
 	
+	@Override
+	public int hashCode() {
+		return this.username.hashCode();
+	}
 }

@@ -65,12 +65,20 @@
 								See Details
 							</a>
 						</div>
+						<div th:switch="${#sets.contains(userCourses, tempCourse)}" style="display:inline" sec:authorize="hasRole('ROLE_STUDENT')">
+							<p th:case="${true}" style="color:green">
+								Enrolled
+							</p>
+							<p th:case="${false}" style="color:blue">
+								Not Enrolled
+							</p>
+						</div>	
 					</div>						
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		
+
 		<p>
 			<a th:href="@{/home}">Back to home</a>
 		</p>

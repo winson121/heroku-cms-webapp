@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+	
+	<title>Save Course</title>
+	<style>.error {color:red}</style>
+</head>
+
+<body>
+	
+	<div class="container">
+	
+		<h3 class="h4 mb-4" >Course Details</h3>
+		<hr>
+		
+		<div  th:object="${course}">
+			<p>Course Title: <span th:text="*{title}"></span></p>
+			
+			
+			<p>Course Description: <span th:text="*{description}"></span></p>
+			
+			<p>Course Teacher: <span th:text="${course.instructor.firstName + ' ' + course.instructor.lastName}"></span></p>
+			<p>Teacher's email: <span th:text="${course.instructor.email}"></span></p>
+		</div>
+		<hr>
+		<div th:switch="${#sets.contains(userCourses, course)}" style="display:inline" sec:authorize="hasRole('ROLE_STUDENT')">
+			<a th:case="${false}" th:href="@{/courses/enroll(courseId=${course.id})}"
+				class="btn btn-info btn-sm">
+				Enroll
+			</a>
+			<a th:case="${true}" th:href="@{/courses/unenroll(courseId=${course.id})}"
+				class="btn btn-info btn-sm">
+				Unenroll
+			</a>
+		</div>	
+			
+		<div style="position: fixed; bottom:10%;">			
+			<a href=# onclick="history.back()">Back</a>
+		</div>
+	</div>
+
+</body>
+
+</html>

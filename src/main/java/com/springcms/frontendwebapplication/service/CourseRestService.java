@@ -18,5 +18,11 @@ public interface CourseRestService {
 
 	void deleteCourse(int courseId, HttpServletRequest request);
 
+	Collection<Course> getCoursesByPage(int pageId, int total, HttpServletRequest request);
+
+	void enrollUser(int courseId, HttpServletRequest request);
+
+	void unenrollUser(int courseId, HttpServletRequest request);
+
 
 }

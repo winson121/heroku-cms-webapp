@@ -16,11 +16,11 @@ public class Course {
 	private int id;
 	
 	@NotNull(message="is required")
-	@Size(min=1, message="is required")
+	@Size(min=10, max=128, message="must be between {min} and {max} characters long")
 	private String title;
 	
 	@NotNull(message="is required")
-	@Size(min=1, message="is required")
+	@Size(min=5, max=200, message="must be between {min} and {max} characters long")
 	private String description;
 	
 	private User instructor;
@@ -98,11 +98,11 @@ public class Course {
 		Course course = (Course) obj;
 		
 		// comparing state of obj to 'this' obj
-		return (course.title.equals(this.title) && course.id == this.id);
+		return (course.title.equals(this.title));
 	}
 	
 	@Override
 	public int hashCode() {
-		return (this.id+this.title).hashCode();
+		return this.title.hashCode();
 	}
 }

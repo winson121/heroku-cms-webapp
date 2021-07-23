@@ -1,6 +1,8 @@
 package com.springcms.frontendwebapplication.controller;
 
 import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -44,7 +46,12 @@ public class CourseController {
 		
 		// get courses from service
 		Collection<Course> courses = courseService.getUserCourses(request);
-		System.out.println("Retrieved courses: " + courses);
+		
+		Set<Course> userCourses = (Set<Course>) courseService.getUserCourses(request);
+		
+		// add userCourses to model for checking if user already enrolled to the course or not
+		model.addAttribute("userCourses", userCourses);
+		
 		// add courses to the model
 		model.addAttribute("courses", courses);
 		return "user-course-catalog";
@@ -53,12 +60,18 @@ public class CourseController {
 	@GetMapping("/courseCatalog")
 	public String showCourses(Model model, HttpServletRequest request) {
 		// get courses from the course service
-		System.out.println("======================================> Calling course catalog");
+		
 		Collection<Course> courses = courseService.getCourses(request);
 		
+		// get user's courses from our service
+		Set<Course> userCourses = (Set<Course>) courseService.getUserCourses(request);
+		
+		// add userCourses to model for checking if user already enrolled to the course or not
+		model.addAttribute("userCourses", userCourses);
+				
 		// add courses to the model
 		model.addAttribute("courses", courses);
-		System.out.println(courses);
+
 		return "course-catalog";
 	}
 	
@@ -69,9 +82,9 @@ public class CourseController {
 		if(bindingResult.hasErrors()) {
 			return "course-form";
 		}
-		
+
 		// save course using service
-		System.out.println("The course is: "+ course);
+		
 		courseService.saveUserCourse(course, request);
 		
 		return "redirect:/courses/userCourses";
@@ -109,11 +122,17 @@ public class CourseController {
 		// get course from our service
 		Course course = courseService.getCourse(courseId, request);
 		
+		// get user's courses from our service
+		Set<Course> userCourses = (Set<Course>) courseService.getUserCourses(request);
+		
+		// add userCourses to model for checking if user already enrolled to the course or not
+		model.addAttribute("userCourses", userCourses);
+		
 		// set course as model attribute for our course details page
 		model.addAttribute("course", course);
 		
 		// send over to our form
-		return "course-details";
+		return "course-detail";
 	}
 	
 	@GetMapping("/delete") 
@@ -122,5 +141,25 @@ public class CourseController {
 		courseService.deleteCourse(courseId, request);
 		
 		return "redirect:/courses/userCourses";
+	}
+	
+	@GetMapping("/enroll")
+	public String enroll(@RequestParam("courseId") int courseId, HttpServletRequest request) {
+		courseService.enrollUser(courseId, request);
+		
+		return getPreviousPageByRequest(request).orElse("/home");
+	}
+	
+	@GetMapping("/unenroll")
+	public String unenroll(@RequestParam("courseId") int courseId, HttpServletRequest request) {
+		courseService.unenrollUser(courseId, request);
+		
+		return getPreviousPageByRequest(request).orElse("/home");
+	}
+	
+	// return the referer path if the "Referer" key is available in the request header
+	// otherwise, return empty Optional
+	protected Optional<String> getPreviousPageByRequest(HttpServletRequest request) {
+		return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:"+ requestUrl);
 	}
 }

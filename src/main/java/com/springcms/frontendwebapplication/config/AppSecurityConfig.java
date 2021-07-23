@@ -32,9 +32,21 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
+		String[] userWhitelist = new String[]{"/home", "/courses", 
+			"/courses/courseDetails",
+			"/courses/courseCatalog",
+			"/courses/userCourses"};
+		
+		String[] teacherOnlyWhitelist = new String[] {"/courses/saveUserCourse",
+				"/courses/showFormForUpdate", "/courses/showFormForAdd",
+				"/courses/delete"};
+		
+		String[] studentOnlyWhitelist = new String[] {"/courses/enroll", "/courses/unenroll"};
 		http.authorizeRequests()
 			.antMatchers("/").permitAll()
-			.antMatchers("/home", "/courses", "/courses/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+			.antMatchers(userWhitelist).hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+			.antMatchers(teacherOnlyWhitelist).hasRole("TEACHER")
+			.antMatchers(studentOnlyWhitelist).hasRole("STUDENT")
 			.and()
 			.formLogin()
 			.loginPage("/showLoginPage")

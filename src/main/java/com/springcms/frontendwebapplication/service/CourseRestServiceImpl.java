@@ -67,15 +67,8 @@ public class CourseRestServiceImpl implements CourseRestService{
 		ResponseEntity<List<Course>> responseEntity = restTemplate.exchange(cmsRestUrl+"/courses",
 				HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<Course>>() {});
 		
-		Collection<Course> courses;
-		// get the list of courses
-		logger.info("after getCourses rest call");
-		logger.info("getCourses body of course: " + responseEntity.getBody());
-		if (responseEntity.getBody() == null) {
-			courses = new HashSet<Course>();
-		} else {
-			courses = new HashSet<Course>(responseEntity.getBody());
-		}
+		// get the list
+		List<Course> courses = responseEntity.getBody();
 		 
 		return courses; 
 	}
@@ -87,6 +80,7 @@ public class CourseRestServiceImpl implements CourseRestService{
 		
 		int courseId = course.getId();
 		
+		logger.info("Save or update course: " + course);
 		// make REST call to post or put course
 		if(courseId == 0) {
 			System.out.println("Save course: " + course);
@@ -119,6 +113,37 @@ public class CourseRestServiceImpl implements CourseRestService{
 		
 		// make REST call to delete todo with this id
 		restTemplate.exchange(cmsRestUrl+"/courses/"+courseId, HttpMethod.DELETE, httpEntity, String.class);
+		
+	}
+
+	@Override
+	public Collection<Course> getCoursesByPage(int pageId, int total, HttpServletRequest request) {
+		// construct httpheaders with authentication for logged in user
+		HttpEntity<?> httpEntity = HttpHeadersUtil.constructHttpEntity(request);
+		
+		ResponseEntity<List<Course>> responseEntity = restTemplate.exchange(cmsRestUrl+"/courses/"+pageId+"/"+total, 
+				HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<Course>>() {});
+		
+		// get the list of courses
+		Collection<Course> courses = responseEntity.getBody();
+		return courses;
+	}
+
+	@Override
+	public void enrollUser(int courseId, HttpServletRequest request) {
+		// construct httpheaders with authentication for logged in user
+		HttpEntity<?> httpEntity = HttpHeadersUtil.constructHttpEntity(request);
+		
+		restTemplate.exchange(cmsRestUrl+"/courses/users/enroll/" + courseId, HttpMethod.GET, httpEntity, Course.class);
+		
+	}
+
+	@Override
+	public void unenrollUser(int courseId, HttpServletRequest request) {
+		// construct httpheaders with authentication for logged in user
+		HttpEntity<?> httpEntity = HttpHeadersUtil.constructHttpEntity(request);
+		
+		restTemplate.exchange(cmsRestUrl+"/courses/users/unenroll/" + courseId, HttpMethod.GET, httpEntity, Course.class);
 		
 	}
 

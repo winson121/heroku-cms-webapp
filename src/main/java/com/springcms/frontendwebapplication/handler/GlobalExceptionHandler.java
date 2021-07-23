@@ -13,6 +13,6 @@ public class GlobalExceptionHandler{
 	// Add exception handler for UserNotLoggedInException
 	@ExceptionHandler
 	public String handleException(UserNotLoggedInException exc, HttpServletRequest request) {
-		return "access-denied";
+		return "redirect:/showLoginPage";
 	}
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+ 
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/error.css}">
+	<title>Server Error</title>
+</head>
+ 
+<body>
+	<section class="centered">
+	  <h1>Server Error</h1>
+	  <div class="container">
+	    <span class="message" id="js-whoops"></span> <span class="message" id="js-appears"></span> <span class="message" id="js-error"></span> <span class="message" id="js-apology"></span>
+	    <div><span class="hidden" id="js-hidden">Message Here</span></div>
+	  </div>
+	</section>
+	
+	<script th:src="@{/js/error-500.js}"></script>
+</body>
+</html>
