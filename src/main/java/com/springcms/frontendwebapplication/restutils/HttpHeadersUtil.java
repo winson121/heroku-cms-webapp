@@ -19,7 +19,7 @@ public class HttpHeadersUtil {
 	public static HttpHeaders getAuthHeaders(String username, String password) {
 		String userCredentials = username+":"+password;
 		String encodedCredentials = new String(Base64.encodeBase64(userCredentials.getBytes()));
-		System.out.println("User password is: " + new String(password));
+
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add("Authorization", "Basic " + encodedCredentials);
 		httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));

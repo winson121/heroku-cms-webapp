@@ -62,7 +62,6 @@ public class RegistrationController {
 		
 		// check the database if user already exists
 		User existing = userService.findByUsername(username);
-		logger.info("Fetched Username: " + existing);
 		if(existing != null) {
 			model.addAttribute("CMSUser", new CMSUser());
 			model.addAttribute("registrationError", "User name already exists.");

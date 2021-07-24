@@ -1,6 +1,7 @@
 package com.springcms.frontendwebapplication.controller;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.springcms.frontendwebapplication.dto.Query;
 import com.springcms.frontendwebapplication.entity.Course;
 import com.springcms.frontendwebapplication.entity.User;
 import com.springcms.frontendwebapplication.service.CourseRestService;
@@ -47,13 +49,19 @@ public class CourseController {
 		// get courses from service
 		Collection<Course> courses = courseService.getUserCourses(request);
 		
-		Set<Course> userCourses = (Set<Course>) courseService.getUserCourses(request);
+		Set<Course> userCourses = (Set<Course>) courses;
 		
 		// add userCourses to model for checking if user already enrolled to the course or not
 		model.addAttribute("userCourses", userCourses);
 		
 		// add courses to the model
 		model.addAttribute("courses", courses);
+		
+		// add query to the model
+		Query query = new Query();
+		query.setColumnName("title");
+		model.addAttribute("query", query);
+		
 		return "user-course-catalog";
 	}
 	
@@ -71,6 +79,11 @@ public class CourseController {
 				
 		// add courses to the model
 		model.addAttribute("courses", courses);
+		
+		// add query to the model
+		Query query = new Query();
+		query.setColumnName("title");
+		model.addAttribute("query", query);
 
 		return "course-catalog";
 	}
@@ -147,14 +160,14 @@ public class CourseController {
 	public String enroll(@RequestParam("courseId") int courseId, HttpServletRequest request) {
 		courseService.enrollUser(courseId, request);
 		
-		return getPreviousPageByRequest(request).orElse("/home");
+		return getPreviousPageByRequest(request).orElse("/courseCatalog");
 	}
 	
 	@GetMapping("/unenroll")
 	public String unenroll(@RequestParam("courseId") int courseId, HttpServletRequest request) {
 		courseService.unenrollUser(courseId, request);
 		
-		return getPreviousPageByRequest(request).orElse("/home");
+		return getPreviousPageByRequest(request).orElse("/courseCatalog");
 	}
 	
 	// return the referer path if the "Referer" key is available in the request header
@@ -162,4 +175,47 @@ public class CourseController {
 	protected Optional<String> getPreviousPageByRequest(HttpServletRequest request) {
 		return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:"+ requestUrl);
 	}
+	
+	@GetMapping("/search")
+	public String searchCourses(@RequestParam(name="courseString", required=false) String searchString, @ModelAttribute("query") Query query ,
+								Model model, HttpServletRequest request) {
+		// pass the query from request parameter to the query object
+		query.setQuery(searchString);
+
+		// search course string from service
+		Collection<Course> courses = courseService.searchCoursesBySearchString(query, request);
+		
+		// add courses to model
+		model.addAttribute("courses", courses);
+
+		return "course-catalog";
+	}
+	
+	@GetMapping("/searchUserCourses")
+	public String searchUserCourses(@RequestParam(name="courseString", required=false) String searchString, @ModelAttribute("query") Query query ,
+										   Model model, HttpServletRequest request) {
+		
+		// pass the query from request parameter to the query object
+		query.setQuery(searchString);
+		
+		// search course string from service
+		Collection<Course> courses = courseService.searchCoursesBySearchString(query, request);
+		
+		// search users' courses from service
+		Set<Course> userCourses = (Set<Course>)courseService.getUserCourses(request);
+		
+		// check if searched result is in userCourses, add this to the search result that we want to display
+		Set<Course> userCoursesFiltered = new HashSet<>();
+		for(Course result: courses) {
+			if (userCourses.contains(result)) {
+				userCoursesFiltered.add(result);
+			}
+		}
+		
+		// add filtered results to model
+		model.addAttribute("courses", userCoursesFiltered);
+		
+		return "user-course-catalog";
+	}
+	
 }

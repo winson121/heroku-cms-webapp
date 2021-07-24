@@ -18,7 +18,7 @@ import com.springcms.frontendwebapplication.exception.UserNotLoggedInException;
 public class UserSessionCheckerAspect {
 	private Logger logger = Logger.getLogger(getClass().getName());
 	
-	@Before("execution(* com.springcms.frontendwebapplication.controller.*.*(..)) && args(.., request)")
+	@Before("com.springcms.frontendwebapplication.aspect.AOPExpression.forControllerPackageNoLandingOrAuthPage() && args(.., request)")
 	public void performanceApiAnalytics(JoinPoint jointPoint, HttpServletRequest request) {
 		logger.info("Check if user attribute exist...");
 		// check if a user is logged in

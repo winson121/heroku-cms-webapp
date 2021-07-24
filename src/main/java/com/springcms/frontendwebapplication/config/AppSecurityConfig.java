@@ -35,7 +35,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
 		String[] userWhitelist = new String[]{"/home", "/courses", 
 			"/courses/courseDetails",
 			"/courses/courseCatalog",
-			"/courses/userCourses"};
+			"/courses/userCourses",
+			"/courses/searchTitleUserCourses",
+			"/courses/searchTitle"};
 		
 		String[] teacherOnlyWhitelist = new String[] {"/courses/saveUserCourse",
 				"/courses/showFormForUpdate", "/courses/showFormForAdd",

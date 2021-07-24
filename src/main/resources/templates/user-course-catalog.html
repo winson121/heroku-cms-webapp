@@ -27,6 +27,25 @@
 			</a>
 		</div>
 		
+		<!-- add a search box -->
+		<form action="#" th:action="@{/courses/searchUserCourses}" th:object="${query}" method="GET">
+			Search Course Title: <input type="text" name="courseString" placeholder=""/>
+			
+			<input type="submit" value="Search" class="btn btn-outline-primary" placeholder=""/>
+			
+			<div>
+		        <label class="radio-inline" for="option1">    
+	            	<input type="radio" id="option1" name="Title" class="custom-control-input" value="title" th:field="*{columnName}">
+	            	Title
+	            </label>
+	        
+	        	<label class="radio-inline" for="option2">
+	            	<input type="radio" id="option2" name="Teacher" class="custom-control-input" value="teacher" th:field="*{columnName}">
+	            	Teacher
+	            </label>
+            </div>
+		</form>
+		
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>

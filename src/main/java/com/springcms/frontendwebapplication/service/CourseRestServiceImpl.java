@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.springcms.frontendwebapplication.dto.Query;
 import com.springcms.frontendwebapplication.entity.Course;
 import com.springcms.frontendwebapplication.handler.ClientStatusErrorHandler;
 import com.springcms.frontendwebapplication.restutils.HttpHeadersUtil;
@@ -48,13 +49,8 @@ public class CourseRestServiceImpl implements CourseRestService{
 		ResponseEntity<List<Course>> responseEntity = restTemplate.exchange(cmsRestUrl+"/courses/users", HttpMethod.GET, httpEntity,
 				new ParameterizedTypeReference<List<Course>>() {});
 		
-		// get the course list and convert to hashset
-		Collection<Course> courses;
-		if (responseEntity.getBody() == null) {
-			courses = new HashSet<Course>();
-		} else {
-			courses = new HashSet<Course>(responseEntity.getBody());
-		}
+		// get the course list
+		Collection<Course> courses = new HashSet<>(responseEntity.getBody());
 		
 		return courses;
 	}
@@ -63,12 +59,12 @@ public class CourseRestServiceImpl implements CourseRestService{
 	public Collection<Course> getCourses(HttpServletRequest request) {
 		// construct http entity with authentication headers of current logged in user
 		HttpEntity<?> httpEntity = HttpHeadersUtil.constructHttpEntity(request);
-		logger.info("inside getCourses");
+
 		ResponseEntity<List<Course>> responseEntity = restTemplate.exchange(cmsRestUrl+"/courses",
 				HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<Course>>() {});
 		
 		// get the list
-		List<Course> courses = responseEntity.getBody();
+		Collection<Course> courses = new HashSet<>(responseEntity.getBody());
 		 
 		return courses; 
 	}
@@ -80,17 +76,14 @@ public class CourseRestServiceImpl implements CourseRestService{
 		
 		int courseId = course.getId();
 		
-		logger.info("Save or update course: " + course);
 		// make REST call to post or put course
 		if(courseId == 0) {
-			System.out.println("Save course: " + course);
-			logger.info(cmsRestUrl+"/courses/users");
-			ResponseEntity<Course> responseEntity = restTemplate.exchange(cmsRestUrl+"/courses/users", HttpMethod.POST, httpEntity, Course.class);
-			logger.info("Saving Course: " + responseEntity.getBody());
+			restTemplate.exchange(cmsRestUrl+"/courses/users", HttpMethod.POST, httpEntity, Course.class);
+
 		} else {
 			//update Course
-			ResponseEntity<Course> responseEntity = restTemplate.exchange(cmsRestUrl+"/courses/users", HttpMethod.PUT, httpEntity, Course.class);
-			logger.info("Updating Course: " + responseEntity.getBody());
+			restTemplate.exchange(cmsRestUrl+"/courses/users", HttpMethod.PUT, httpEntity, Course.class);
+
 		}
 	}
 
@@ -125,7 +118,7 @@ public class CourseRestServiceImpl implements CourseRestService{
 				HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<Course>>() {});
 		
 		// get the list of courses
-		Collection<Course> courses = responseEntity.getBody();
+		Collection<Course> courses = new HashSet<>(responseEntity.getBody());
 		return courses;
 	}
 
@@ -146,5 +139,17 @@ public class CourseRestServiceImpl implements CourseRestService{
 		restTemplate.exchange(cmsRestUrl+"/courses/users/unenroll/" + courseId, HttpMethod.GET, httpEntity, Course.class);
 		
 	}
-
+	
+	@Override
+	public Collection<Course> searchCoursesBySearchString(Query query, HttpServletRequest request) {
+		// construct httpheaders with authentication for logged in user
+		HttpEntity<?> httpEntity = HttpHeadersUtil.constructHttpEntity(query, request);
+		
+		ResponseEntity<List<Course>> responseEntity = restTemplate.exchange(cmsRestUrl+"/courses/search",
+														HttpMethod.POST, httpEntity, new ParameterizedTypeReference<List<Course>>() {});
+		
+		Collection<Course> courses = new HashSet<>(responseEntity.getBody());
+		
+		return courses;
+	}
 }

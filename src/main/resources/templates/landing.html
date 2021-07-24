@@ -14,23 +14,27 @@
  
 <body>
 	<div class="container">
-		<h2>Prototype ToDo List Landing Page</h2>
+		<h2>Prototype Course Management System Landing Page</h2>
 		<hr>
 		
 		<p>
-			Welcome to the Prototype ToDo List, this is just a sample ToDo List Rest API Web Application.
-			Please don't put any personal information to sign up and using the ToDo List. 
+			Welcome to the Prototype CMS, this is just a sample CMS List Rest API Web Application.
+			Please don't put any personal information to sign up. 
 		</p>
 		
 		<p>
 			Available user by default:
 		</p>
 			<ul>
-				<li>username: user, password: user</li>
-				<li>username: poweruser, password: poweruser</li>
+				<li>username: Teacher, password: teacher</li>
+				<li>username: Student, password: student</li>
 			</ul>
 		<hr>
-		
+		<div>
+			<p>Anyone can login with the available user above without signup. You could also signup to create your own
+			account, just keep in mind not to use your personal information to signup since we just use basic authentication
+			for web security.</p>
+		</div>
 		<p>
 			<a th:href="@{/home}">Access Secure Site (requires login)</a>
 		</p>
