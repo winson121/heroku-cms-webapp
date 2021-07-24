@@ -50,7 +50,14 @@ public class CourseRestServiceImpl implements CourseRestService{
 				new ParameterizedTypeReference<List<Course>>() {});
 		
 		// get the course list
-		Collection<Course> courses = new HashSet<>(responseEntity.getBody());
+		Collection<Course> courses;
+		if (responseEntity.getBody() == null) {
+			courses = new HashSet<>();
+		}
+		else {
+			courses = new HashSet<>(responseEntity.getBody());
+		}
+		
 		
 		return courses;
 	}
@@ -63,8 +70,14 @@ public class CourseRestServiceImpl implements CourseRestService{
 		ResponseEntity<List<Course>> responseEntity = restTemplate.exchange(cmsRestUrl+"/courses",
 				HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<Course>>() {});
 		
-		// get the list
-		Collection<Course> courses = new HashSet<>(responseEntity.getBody());
+		// get the course list
+		Collection<Course> courses;
+		if (responseEntity.getBody() == null) {
+			courses = new HashSet<>();
+		}
+		else {
+			courses = new HashSet<>(responseEntity.getBody());
+		}
 		 
 		return courses; 
 	}
