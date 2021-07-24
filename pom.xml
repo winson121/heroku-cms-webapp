@@ -11,7 +11,7 @@
 	<groupId>com.springcms</groupId>
 	<artifactId>frontend-web-application</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>frontend-cms-webapp</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
