@@ -2,7 +2,6 @@ package com.springcms.frontendwebapplication.controller;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -131,7 +130,7 @@ public class CourseController {
 	}
 	
 	@GetMapping("/courseDetails")
-	public String showCourseDetails(@RequestParam("courseId")int courseId, Model model, HttpServletRequest request) {
+	public String showCourseDetails(@RequestParam("courseId")int courseId, @RequestParam("referrer") String referrerLink, Model model, HttpServletRequest request) {
 		// get course from our service
 		Course course = courseService.getCourse(courseId, request);
 		
@@ -144,6 +143,9 @@ public class CourseController {
 		// set course as model attribute for our course details page
 		model.addAttribute("course", course);
 		
+		// add referrer link to model attribute
+		model.addAttribute("referrer", referrerLink);
+
 		// send over to our form
 		return "course-detail";
 	}
@@ -157,24 +159,19 @@ public class CourseController {
 	}
 	
 	@GetMapping("/enroll")
-	public String enroll(@RequestParam("courseId") int courseId, HttpServletRequest request) {
+	public String enroll(@RequestParam("courseId") int courseId, @RequestParam("referrer") String referrer, HttpServletRequest request) {
 		courseService.enrollUser(courseId, request);
 		
-		return getPreviousPageByRequest(request).orElse("/courseCatalog");
+		return "redirect:" + referrer;
 	}
 	
 	@GetMapping("/unenroll")
-	public String unenroll(@RequestParam("courseId") int courseId, HttpServletRequest request) {
+	public String unenroll(@RequestParam("courseId") int courseId, @RequestParam("referrer") String referrer, HttpServletRequest request) {
 		courseService.unenrollUser(courseId, request);
 		
-		return getPreviousPageByRequest(request).orElse("/courseCatalog");
+		return "redirect:" + referrer;
 	}
 	
-	// return the referer path if the "Referer" key is available in the request header
-	// otherwise, return empty Optional
-	protected Optional<String> getPreviousPageByRequest(HttpServletRequest request) {
-		return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:"+ requestUrl);
-	}
 	
 	@GetMapping("/search")
 	public String searchCourses(@RequestParam(name="courseString", required=false) String searchString, @ModelAttribute("query") Query query ,

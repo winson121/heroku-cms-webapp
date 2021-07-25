@@ -12,6 +12,7 @@
 	
 	<title>Save Course</title>
 	<style>.error {color:red}</style>
+	
 </head>
 
 <body>
@@ -33,19 +34,21 @@
 			<p>Course Description: <span th:text="*{description}"></span></p>
 		</div>
 		<hr>
-		<div th:switch="${#sets.contains(userCourses, course)}" style="display:inline" sec:authorize="hasRole('ROLE_STUDENT')">
-			<a th:case="${false}" th:href="@{/courses/enroll(courseId=${course.id})}"
-				class="btn btn-info btn-sm">
-				Enroll
-			</a>
-			<a th:case="${true}" th:href="@{/courses/unenroll(courseId=${course.id})}"
-				class="btn btn-info btn-sm">
-				Unenroll
-			</a>
-		</div>	
-			
-		<div style="position: fixed; bottom:10%;">			
-			<a href=# onclick="history.back()">Back</a>
+		<div th:object="${referrer}">
+			<div th:switch="${#sets.contains(userCourses, course)}" style="display:inline" sec:authorize="hasRole('ROLE_STUDENT')">
+				<a th:case="${false}" th:href="@{/courses/enroll(courseId=${course.id}, referrer=${referrer})}"
+					class="btn btn-info btn-sm">
+					Enroll
+				</a>
+				<a th:case="${true}" th:href="@{/courses/unenroll(courseId=${course.id}, referrer=${referrer})}"
+					class="btn btn-info btn-sm">
+					Unenroll
+				</a>
+			</div>	
+				
+			<div style=" position: fixed; bottom:10%;">			
+				<a th:href="@{${referrer}}">Back</a>
+			</div>
 		</div>
 	</div>
 

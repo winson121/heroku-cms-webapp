@@ -57,16 +57,16 @@
 					<td>
 					<div>		
 						<div style="display:inline">
-							<a th:href="@{/courses/courseDetails(courseId=${tempCourse.id})}"
+							<a th:href="@{/courses/courseDetails(courseId=${tempCourse.id}, referrer='/courses/courseCatalog')}"
 								class="btn btn-info btn-sm">
 								See Details
 							</a>
-							<div th:switch="${#sets.contains(userCourses, tempCourse)}" style="display:inline" sec:authorize="hasRole('ROLE_STUDENT')">
-							<a th:case="${false}" th:href="@{/courses/enroll(courseId=${tempCourse.id})}"
+						<div th:switch="${#sets.contains(userCourses, tempCourse)}" style="display:inline" sec:authorize="hasRole('ROLE_STUDENT')">
+							<a th:case="${false}" th:href="@{/courses/enroll(courseId=${tempCourse.id}, referrer='/courses/courseCatalog')}"
 								class="btn btn-info btn-sm">
 								Enroll
 							</a>
-							<a th:case="${true}" th:href="@{/courses/unenroll(courseId=${tempCourse.id})}"
+							<a th:case="${true}" th:href="@{/courses/unenroll(courseId=${tempCourse.id}, referrer='/courses/courseCatalog')}"
 								class="btn btn-info btn-sm">
 								Unenroll
 							</a>
