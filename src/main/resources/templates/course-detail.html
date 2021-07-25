@@ -24,11 +24,13 @@
 		<div  th:object="${course}">
 			<p>Course Title: <span th:text="*{title}"></span></p>
 			
-			
-			<p>Course Description: <span th:text="*{description}"></span></p>
-			
 			<p>Course Teacher: <span th:text="${course.instructor.firstName + ' ' + course.instructor.lastName}"></span></p>
 			<p>Teacher's email: <span th:text="${course.instructor.email}"></span></p>
+			
+			<br>
+			<hr>
+			<br>
+			<p>Course Description: <span th:text="*{description}"></span></p>
 		</div>
 		<hr>
 		<div th:switch="${#sets.contains(userCourses, course)}" style="display:inline" sec:authorize="hasRole('ROLE_STUDENT')">
