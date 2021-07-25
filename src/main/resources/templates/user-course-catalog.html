@@ -84,12 +84,9 @@
 								See Details
 							</a>
 						</div>
-						<div th:switch="${#sets.contains(userCourses, tempCourse)}" style="display:inline" sec:authorize="hasRole('ROLE_STUDENT')">
-							<p th:case="${true}" style="color:green">
+						<div>
+							<p style="color:green">
 								Enrolled
-							</p>
-							<p th:case="${false}" style="color:blue">
-								Not Enrolled
 							</p>
 						</div>	
 					</div>						

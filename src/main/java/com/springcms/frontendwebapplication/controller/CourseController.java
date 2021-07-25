@@ -79,7 +79,7 @@ public class CourseController {
 				
 		// add courses to the model
 		model.addAttribute("courses", courses);
-		
+
 		// add query to the model
 		Query query = new Query();
 		query.setColumnName("title");
@@ -187,6 +187,12 @@ public class CourseController {
 		
 		// add courses to model
 		model.addAttribute("courses", courses);
+		
+		// get user's courses from our service
+		Set<Course> userCourses = (Set<Course>) courseService.getUserCourses(request);
+		
+		// add userCourses to model for checking if user already enrolled to the course or not
+		model.addAttribute("userCourses", userCourses);
 
 		return "course-catalog";
 	}
