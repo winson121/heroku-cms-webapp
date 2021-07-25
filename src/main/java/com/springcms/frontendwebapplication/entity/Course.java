@@ -16,11 +16,11 @@ public class Course {
 	private int id;
 	
 	@NotNull(message="is required")
-	@Size(min=10, max=128, message="must be between {min} and {max} characters long")
+	@Size(min=8, max=50, message="must be between {min} and {max} characters long")
 	private String title;
 	
 	@NotNull(message="is required")
-	@Size(min=5, max=200, message="must be between {min} and {max} characters long")
+	@Size(min=5, max=700, message="must be between {min} and {max} characters long")
 	private String description;
 	
 	private User instructor;
