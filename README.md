@@ -33,7 +33,7 @@ To filter which resources a user could enter, we divided the role into Student, 
 
 ## Other Resources
 
-* [Frontend page used for errors] (https://freefrontend.com/500-error-page-html-templates/)
+* [Frontend page used for errors](https://freefrontend.com/500-error-page-html-templates/)
 
 
 
