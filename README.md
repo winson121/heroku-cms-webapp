@@ -2,9 +2,12 @@
 Simple Course Management System Rest Web Application built with java Spring framework using Springboot with SpringMVC, Spring Security, AOP, Thymeleaf template engine.
 You can see the Backend server Rest API project [here](https://github.com/winson121/heroku-cms-rest-backend). This is a personal project to learn on how to create REST web application using java Spring framework and not for commercial purpose. Please don't use any personal information when signup for this application.
 
+this is the link to the web application: http://herokuprototypecms.herokuapp.com
+
 ## Table of Contents
   * [Overview](#overview)
   * [Spring Security](#spring-security)
+  * [Other Resources](#other-resources)
  
 <a id="overview"/>
 
@@ -26,7 +29,11 @@ To filter which resources a user could enter, we divided the role into Student, 
 
 ![Spring Security Overview](https://user-images.githubusercontent.com/45975038/127424745-47243cdb-48ef-4709-95ce-7bab8f0f82f7.png)
 
+<a id="other-resources"/>
 
+## Other Resources
+
+* [Frontend page used for errors] (https://freefrontend.com/500-error-page-html-templates/)
 
 
 
