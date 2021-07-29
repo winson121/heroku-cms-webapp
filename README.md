@@ -15,14 +15,16 @@ At low-level, the application have the following architecture:
 
 ![cms-architecture](https://user-images.githubusercontent.com/45975038/127320391-14eb5de8-1d04-4b78-8302-cdd4c0b6036d.png)
 
-When the client browser want to access a resources, the http request from the browser will first be intercepted by spring security to check if a user is authenticated and authorized to access the web resources(the url), then the UserSessionCheckerAspect will intercept the authenticated request to the controller to check if the user session exist or not. If the 'user' session attribute is null, the "user" is not logged in to the session yet and UserSessionCheckerAspect will throw UserNotLoggedInException, which will be catch by the GlobalExceptionHandler @ControllerAdvice. The GlobalExceptionHandler method for UserNoLoggedInException will then redirect the user to the login form. If the user is logged in, then their request will be passed to the Spring MVC Controller and the controller will call HttpRequest to the REST api url with RestTemplate to perform CRUD operation. if the HttpStatus code is success, the retrieved json data will be mapped to the Model POJO class (e.g. Course, User) and the retrieved data may be displayed by thymeleaf template in HTML page.
+When the client browser want to access resources, the http request from the browser will first be intercepted by spring security to check if a user is authenticated and authorized to access the web resources(the url), then the [UserSessionCheckerAspect](https://github.com/winson121/heroku-cms-webapp/blob/main/src/main/java/com/springcms/frontendwebapplication/aspect/UserSessionCheckerAspect.java) will intercept the authenticated request to the controller to check if the user session exist or not. If the 'user' session attribute is null, the "user" is not logged in to the session yet and UserSessionCheckerAspect will throw UserNotLoggedInException, which will be catch by the GlobalExceptionHandler @ControllerAdvice. The GlobalExceptionHandler method for UserNotLoggedInException will then redirect the user to the login form. If the user is logged in, then their request will be passed to the Spring MVC Controller and the controller will call HttpRequest to the REST api url with RestTemplate to perform CRUD operation. if the HttpStatus code is success, the retrieved json data will be mapped to the Model POJO class (e.g. Course, User) and the retrieved data may be displayed by thymeleaf template in HTML page.
 
 <a id="spring-security"/>
 
 ## Spring Security
 
+To filter which resources a user could enter, we divided the role into Student, Teacher and Admin. In current version of our web application, there are still no specific resources for admin role to enter. The configuration for Filtering which web resources(url) can be seen in [AppSecurityConfig](https://github.com/winson121/heroku-cms-webapp/blob/main/src/main/java/com/springcms/frontendwebapplication/config/AppSecurityConfig.java) class. The following image shows the spring security workflow of the web application:
 
 
+![Spring Security Overview](https://user-images.githubusercontent.com/45975038/127424745-47243cdb-48ef-4709-95ce-7bab8f0f82f7.png)
 
 
 
