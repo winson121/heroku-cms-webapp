@@ -7,6 +7,7 @@ this is the link to the web application: http://herokuprototypecms.herokuapp.com
 ## Table of Contents
   * [Overview](#overview)
   * [Spring Security](#spring-security)
+  * [Rest Client Service](#rest-service)
   * [Other Resources](#other-resources)
  
 <a id="overview"/>
@@ -28,6 +29,11 @@ To filter which resources a user could enter, we divided the role into Student, 
 
 
 ![Spring Security Overview](https://user-images.githubusercontent.com/45975038/127424745-47243cdb-48ef-4709-95ce-7bab8f0f82f7.png)
+
+<a id="rest-service"/>
+
+## Rest Client Service
+when the user access a web resources to get, update, delete or save new data (e.g. signup a new user, login, enroll in course, add/update/delete courses), the Spring MVC Controller will invoke a method from Service object in the [service package](https://github.com/winson121/heroku-cms-webapp/tree/main/src/main/java/com/springcms/frontendwebapplication/service). The service method will then send an HttpRequest to the rest api in the backend server with the credentials of the user attached to the Http headers. The service method will receive a ResponseEntity object from the backend server with the body and status code of the resources. By default, if the status code is of series 400 and 500 series, the [RestTemplate] object(http://www.springframework.net/rest/doc-latest/reference/html/resttemplate.html), which is used to call the REST API will throws RuntimeException. In this web application, we implements a custom error handler in the  [ClientStatusErrorHandler](https://github.com/winson121/heroku-cms-webapp/blob/main/src/main/java/com/springcms/frontendwebapplication/handler/ClientStatusErrorHandler.java) which will log response status code and response headers for 400 series error. This will prevent the web application from stopping when the resources is not found or the ResponseEntity body is null.
 
 <a id="other-resources"/>
 
